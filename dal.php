@@ -14,12 +14,22 @@ function _connectToDB(){
 	$db = substr($url["path"], 1);
 	ChromePhp::log($db);
 
-	$conn = new mysqli($server, $username, $password, $db);
-	ChromePhp::log($conn);
+	$mysqli = new mysqli("localhost", "my_user", "my_password", "world");
+
+	/* check connection */
+	if ($mysqli->connect_errno) {
+    	ChromePhp::log("Connect failed:");
+    	ChromePhp::log($mysqli->connect_error);
+    	exit();
+	}
+	
+	return $mysqli;
 }
 
 function insertWords($words){
-	_connectToDB();
+	ChromePhp::log("before connect to db");
+	$mysqli = _connectToDB();
+	ChromePhp::log("after connect to db");
 	$wordsStrings = array();
 	foreach ($words as $word) {
 		$wordsStrings []= "'".$word."'";
@@ -28,7 +38,8 @@ function insertWords($words){
 	$wordsStrings = implode(',',$wordsStrings);
 	$valuesToInsert = array();
 	$existingWords = array();
-	$result = mysql_query("select * from words where word in (".$wordsStrings.")");
+	$conn.
+	$result = $mysqli->query("select * from words where word in (".$wordsStrings.")");
 	if($result){
 		while($row = mysql_fetch_array($result))
 		{
@@ -46,19 +57,19 @@ function insertWords($words){
 	}
 
 	$valuesToInsert = implode(',', $valuesToInsert);
-	mysql_query("INSERT INTO words (word,amount) VALUES $valuesToInsert ON DUPLICATE KEY UPDATE amount=amount");
+	$result = $mysqli->query("INSERT INTO words (word,amount) VALUES $valuesToInsert ON DUPLICATE KEY UPDATE amount=amount");
 }
 
 function getWords(){
-	_connectToDB();
-	$result = mysql_query("select * from words");
+	$mysqli = _connectToDB();
+	$result = $mysqli->query("select * from words");
 
 	return $result;
 }
 
 function deleteWords(){
-	_connectToDB();
-	return mysql_query("delete from words");
+	$mysqli = _connectToDB();
+	return $mysqli->query("delete from words");
 }
 
 

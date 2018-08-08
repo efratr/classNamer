@@ -22,6 +22,7 @@
         			},
         			error: function(error){
         				console.log(error);
+                        console.log("test 1");
         			}
         		})
         	})
