@@ -1,15 +1,21 @@
 <?php
+require 'ChromePhp.php'; // for debug php in chrome console with ChromePhp::log()
 
 function _connectToDB(){
 
 	$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-
+	ChromePhp::log($url);
 	$server = $url["host"];
+	ChromePhp::log($server);
 	$username = $url["user"];
+	ChromePhp::log($username);
 	$password = $url["pass"];
+	ChromePhp::log($password);
 	$db = substr($url["path"], 1);
+	ChromePhp::log($db);
 
 	$conn = new mysqli($server, $username, $password, $db);
+	ChromePhp::log($conn);
 }
 
 function insertWords($words){
