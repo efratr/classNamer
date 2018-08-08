@@ -19,9 +19,13 @@ function _handlePostRequest(){
 }
 
 function _handleGetRequest(){
+	ChromePhp::log("inside handle get request");
 	$htmlData = _getDataFromClassNamer();
 	$words = _extractWords($htmlData);
+	ChromePhp::log("words is: ");
+	ChromePhp::log($words);
 	insertWords($words);
+	ChromePhp::log("after insert words");
 	$result = getWords();
 	echo _prepareWordsForDisplay($result);
 }
