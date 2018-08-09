@@ -1,6 +1,5 @@
 <?php
 require 'dal.php';
-require 'ChromePhp.php'; // for debug php in chrome console with ChromePhp::log()
 
 switch ($_SERVER["REQUEST_METHOD"]) {
 	case 'GET':
