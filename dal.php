@@ -3,11 +3,10 @@ require 'ChromePhp.php'; // for debug php in chrome console with ChromePhp::log(
 
 function _connectToDB(){
 
-	$host = "ec2-107-21-98-165.compute-1.amazonaws.com";
-	$user = "bfeehwvupkrpbp";
-	$password = "05777e0a3b00d5470546b5c419cfd6b50a9de025ba8e8388ec053b93bde70ca5";
-	$database = "d45c32tqkqt1im";
-	$mysqli = new mysqli($host, $user, $password, $database);
+	$db = parse_url(getenv("DATABASE_URL"));
+	$db["path"] = ltrim($db["path"], "/");
+
+	$mysqli = new mysqli($db["host"], $db["user"], $db["pass"], $db["path"]);
 
 	
 	// Check connection
