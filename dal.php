@@ -3,12 +3,14 @@ require 'ChromePhp.php'; // for debug php in chrome console with ChromePhp::log(
 
 function _connectToDB(){
 
-	$db = parse_url(getenv("DATABASE_URL"));
-	$db["path"] = ltrim($db["path"], "/");
+	//todo - should be in env file
+	$host = "remotemysql.com";
+	$user = "ovWJU5rBsT";
+	$password = "8UFLFNd9Hp";
+	$db = "ovWJU5rBsT";
 
-	$mysqli = new mysqli($db["host"], $db["user"], $db["pass"], $db["path"]);
+	$mysqli = new mysqli($host, $user, $password, $db);
 
-	
 	// Check connection
 	if ($mysqli->connect_error) {
     	die("Connection failed: " . $mysqli->connect_error);
@@ -27,16 +29,14 @@ function insertWords($words){
 	$wordsStrings = implode(',',$wordsStrings);
 	$valuesToInsert = array();
 	$existingWords = array();
-	$conn.
-	$result = $mysqli->query("select * from words where word in (".$wordsStrings.")");
+	$result = $mysqli->query("select * from ovWJU5rBsT.words where word in (".$wordsStrings.")");
 	if($result){
-		while($row = mysql_fetch_array($result))
-		{
-			$word = $row['word'];
+		while ($row = $result->fetch_assoc()) {
+        	$word = $row['word'];
 			$existingWords []= $word;
 			$newCount = $row['amount']++;
 			$valuesToInsert []= "('".$word."',".$newCount.")";
-		}	
+    	}	
 	}
 
 	foreach($words as $word) {
@@ -46,14 +46,14 @@ function insertWords($words){
 	}
 
 	$valuesToInsert = implode(',', $valuesToInsert);
-	$result = $mysqli->query("INSERT INTO words (word,amount) VALUES $valuesToInsert ON DUPLICATE KEY UPDATE amount=amount");
+	$result = $mysqli->query("INSERT INTO ovWJU5rBsT.words (word,amount) VALUES $valuesToInsert ON DUPLICATE KEY UPDATE amount=amount");
 
 	$mysqli->close();
 }
 
 function getWords(){
 	$mysqli = _connectToDB();
-	$result = $mysqli->query("select * from words");
+	$result = $mysqli->query("select * from ovWJU5rBsT.words");
 	$mysqli->close();
 
 	return $result;
@@ -61,11 +61,10 @@ function getWords(){
 
 function deleteWords(){
 	$mysqli = _connectToDB();
-	$result = $mysqli->query("delete from words");
+	$result = $mysqli->query("delete from ovWJU5rBsT.words");
 	$mysqli->close();
 
 	return $result;
 }
-
 
 ?>

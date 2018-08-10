@@ -12,11 +12,6 @@ switch ($_SERVER["REQUEST_METHOD"]) {
 		break;
 }
 
-function _handlePostRequest(){
-	$result = deleteWords();
-	Print '<script>window.location.assign("index.php");</script>';
-}
-
 function _handleGetRequest(){
 	$htmlData = _getDataFromClassNamer();
 	$words = _extractWords($htmlData);
@@ -44,7 +39,7 @@ function _extractWords($htmlData){
 function _prepareWordsForDisplay($result){
 	$valuesToEcho = "";
 	if($result){
-		while($row = mysql_fetch_array($result))
+		while($row = $result->fetch_assoc())
 		{
 			$word = $row['word'];
 			$count = $row['amount'];
@@ -53,6 +48,11 @@ function _prepareWordsForDisplay($result){
 	}	
 
 	return $valuesToEcho;
+}
+
+function _handlePostRequest(){
+	$result = deleteWords();
+	Print '<script>window.location.assign("index.php");</script>';
 } 
 
 ?>
