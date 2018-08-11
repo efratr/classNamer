@@ -43,7 +43,7 @@ function _prepareWordsForDisplay($result){
 		{
 			$word = $row['word'];
 			$count = $row['amount'];
-			$valuesToEcho .= "<font size='+".$count."'>".$word."(".$count.")</font> ";
+			$valuesToEcho .= "<font size='+".$count."'>".$word." (".$count.")</font> </br>";
 		}	
 	}	
 
@@ -51,7 +51,7 @@ function _prepareWordsForDisplay($result){
 }
 
 function _handlePostRequest(){
-	$result = deleteWords();
+	deleteWords();
 	Print '<script>window.location.assign("index.php");</script>';
 } 
 

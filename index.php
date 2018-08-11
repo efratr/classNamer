@@ -5,7 +5,7 @@
     </head>
     <body>
         <h1>Refresh for get words from classNamer.org</h1>
-        <h3>The number in the prenthesis is the word count's in database</h3>
+        <h4>The number in the prenthesis is the word count in database</h4>
 
         <form action="base.php" method="POST">
             <input type="submit" value="Empty words in DB"/>
